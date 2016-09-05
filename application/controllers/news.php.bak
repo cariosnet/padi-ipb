@@ -1,0 +1,346 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class News extends CI_Controller {
+	var $breadData = array();
+	var $breadLoop = 0;
+	
+	function News(){
+		parent::__construct();	
+		$this->load->model('eksternal/Phpbb_Posts_Model', 'Phpbb_Posts_Model');
+		$this->load->model('X_Ads_Position_Model');
+		$this->load->model('X_Pages_Model');
+    	$this->load->model('X_Download_Model');
+    	$this->load->model('X_News_category_Model');
+	}
+	
+	function artikel_list($idx){
+		$this->load->model('X_News_Model','news');
+    	$og_image = $this->config->item('ext_img')."icon/200x200.png";
+    	
+    	$data = array(
+    			'pageTitle' 	=> 'Artikel',
+    			'content'	 	=> 'front/news/artikel_list',
+    			'meta_desc'		=> '',
+    			'meta_key'		=> '',
+    			'og_image'		=> $og_image,
+    			'contentData'	=> array(
+    					'breadData' => '',
+    					'listRegulasi'	=> $this->X_Download_Model->getListData(10, 0, "RE", "A"),
+    					'listProduk'	=> $this->news->getNewArtikelLimit("D"),
+    					'listCat'	=> $this->X_News_category_Model->getListCatType($idx),
+    					'listCatAll' => $this->X_News_category_Model->getListCatTypeAll($idx),
+    					'cat' => '',
+    					'idx' => $idx
+    					//'cat'		=> $cat->row(),
+    					//'listRelated'		=> $listRelated,
+    					//'listLatestNews'	=> $this->newslogic->getListNewsCatRel($cat->row()->ID, null, 0, 6, 0),
+    					//'listForum'			=> $this->Phpbb_Posts_Model->getListThreads(),
+    					//'listPopuler'		=> $this->newslogic->getListNewsCatRel($cat->row()->ID, null, 0, 6, 0, true),
+    					//'listBanner'		=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(3, "a"),
+    					//'listBannerSide'	=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(3, "b")
+    			)
+    	);
+    	
+    	$this->load->view('front/layout', $data);
+	}
+	
+	function artikel_category_list($idx,$kategori){
+		$this->load->model('X_News_Model','news');
+		 
+		$config ['base_url'] = base_url ().'/artikel/'.$idx.'/'.$kategori.'/';
+		$config ['full_tag_open'] = '<div><ul class="pagination">';
+		$config ['full_tag_close'] = '</ul> <div class="clear"></div></div>';
+		$config ['cur_tag_open'] = '<li class="active"><a>';
+		$config ['cur_tag_close'] = '</a></li>';
+		$config ['num_tag_open'] = '<li>';
+		$config ['num_tag_close'] = '</li>';
+		$config ['total_rows'] = $this->news->news_row_category($kategori);
+		$config ['per_page'] = 9;
+		$config ['uri_segment'] = 4;
+		$config ['first_link'] = 'First';
+		$config ['first_tag_open'] = '<li>';
+		$config ['first_tag_close'] = '</li>';
+		$config ['last_link'] = 'Last';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['next_link'] = '&gt;';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['prev_link'] = '&lt;';
+		$config['prev_tag_open'] = '<li>';
+		 
+		$this->pagination->initialize ( $config );
+		$obj = $this->news->getAllNewsCategory($kategori,getArtikelType($idx),$config ['per_page'], $this->uri->segment ( 4 ));
+		 
+		$og_image = $this->config->item('ext_img')."icon/200x200.png";
+		$category = $this->X_News_category_Model->getListCatByAlias($kategori);
+		if($category->num_rows() == 0){
+			redirect('artikel/'.$idx);
+		}
+		$data = array(
+				'pageTitle' 	=> 'Berita',
+				'content'	 	=> 'front/news/artikel_list_category',
+				'meta_desc'		=> '',
+				'meta_key'		=> '',
+				'og_image'		=> $og_image,
+				'contentData'	=> array(
+						'breadData' => '',
+						'news'		=> $obj,
+						'listRegulasi'	=> $this->X_Download_Model->getListData(10, 0, "RE", "A"),
+						'listProduk'	=> $this->news->getNewArtikelLimit("D"),
+						'listCat'	=> $this->X_News_category_Model->getListCatType($idx),
+						//     					'listCatAll' => $this->X_News_category_Model->getListCatTypeAll(1),
+						'cat' => $category->row(),
+						'idx' => $idx
+						//'cat'		=> $cat->row(),
+						//'listRelated'		=> $listRelated,
+						//'listLatestNews'	=> $this->newslogic->getListNewsCatRel($cat->row()->ID, null, 0, 6, 0),
+						//'listForum'			=> $this->Phpbb_Posts_Model->getListThreads(),
+						//'listPopuler'		=> $this->newslogic->getListNewsCatRel($cat->row()->ID, null, 0, 6, 0, true),
+						//'listBanner'		=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(3, "a"),
+						//'listBannerSide'	=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(3, "b")
+				)
+		);
+	
+		$this->load->view('front/layout', $data);
+	}
+	
+	function news_category_list($kategori){
+    	$this->load->model('X_News_Model','news');
+    	
+		$config ['base_url'] = base_url ().'/berita/'.$kategori.'/';
+		$config ['full_tag_open'] = '<div><ul class="pagination">';
+		$config ['full_tag_close'] = '</ul> <div class="clear"></div></div>';
+		$config ['cur_tag_open'] = '<li class="active"><a>';
+		$config ['cur_tag_close'] = '</a></li>';
+		$config ['num_tag_open'] = '<li>';
+		$config ['num_tag_close'] = '</li>';
+		$config ['total_rows'] = $this->news->news_row_category($kategori);
+		$config ['per_page'] = 9;
+		$config ['uri_segment'] = 3;
+		$config ['first_link'] = 'First';
+		$config ['first_tag_open'] = '<li>';
+		$config ['first_tag_close'] = '</li>';
+		$config ['last_link'] = 'Last';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['next_link'] = '&gt;';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['prev_link'] = '&lt;';
+		$config['prev_tag_open'] = '<li>';
+    	
+    	$this->pagination->initialize ( $config );
+    	$obj = $this->news->getAllNewsCategory($kategori,'N',$config ['per_page'], $this->uri->segment ( 3 ));
+    	
+    	$og_image = $this->config->item('ext_img')."icon/200x200.png";
+    	$category = $this->X_News_category_Model->getListCatByAlias($kategori);
+    	if($category->num_rows() == 0){
+    		redirect('berita');
+    	}
+    	$data = array(
+    			'pageTitle' 	=> 'Berita',
+    			'content'	 	=> 'front/news/news_list_category',
+    			'meta_desc'		=> '',
+    			'meta_key'		=> '',
+    			'og_image'		=> $og_image,
+    			'contentData'	=> array(
+    					'breadData' => '',
+    					'news'		=> $obj,
+    					'listRegulasi'	=> $this->X_Download_Model->getListData(10, 0, "RE", "A"),
+    					'listProduk'	=> $this->news->getNewArtikelLimit("D"),
+    					'listDokumen'	=> $this->X_Download_Model->getListData(10, 0, "DO", "A"),
+    					'listCat'	=> $this->X_News_category_Model->getListCatType(1),
+//     					'listCatAll' => $this->X_News_category_Model->getListCatTypeAll(1),
+    					'cat' => $category->row()
+    					//'cat'		=> $cat->row(),
+    					//'listRelated'		=> $listRelated,
+    					//'listLatestNews'	=> $this->newslogic->getListNewsCatRel($cat->row()->ID, null, 0, 6, 0),
+    					//'listForum'			=> $this->Phpbb_Posts_Model->getListThreads(),
+    					//'listPopuler'		=> $this->newslogic->getListNewsCatRel($cat->row()->ID, null, 0, 6, 0, true),
+    					//'listBanner'		=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(3, "a"),
+    					//'listBannerSide'	=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(3, "b")
+    			)
+    	);
+    	 
+    	$this->load->view('front/layout', $data);
+	}
+
+	function news_list(){ 
+	
+		$this->load->model('X_News_Model','news');
+    	
+    	$og_image = $this->config->item('ext_img')."icon/200x200.png";
+    	
+    	$data = array(
+    			'pageTitle' 	=> 'Berita',
+    			'content'	 	=> 'front/news/news_list',
+    			'meta_desc'		=> '',
+    			'meta_key'		=> '',
+    			'og_image'		=> $og_image,
+    			'contentData'	=> array(
+    					'breadData' => '',
+    					'listRegulasi'	=> $this->X_Download_Model->getListData(10, 0, "RE", "A"),
+    					'listProduk'	=> $this->news->getNewArtikelLimit("D"),
+    					'listDokumen'	=> $this->X_Download_Model->getListData(10, 0, "DO", "A"),
+    					'listCat'	=> $this->X_News_category_Model->getListCatType(1),
+    					'listCatAll' => $this->X_News_category_Model->getListCatTypeAll(1),
+    					'cat' => ''
+    					//'cat'		=> $cat->row(),
+    					//'listRelated'		=> $listRelated,
+    					//'listLatestNews'	=> $this->newslogic->getListNewsCatRel($cat->row()->ID, null, 0, 6, 0),
+    					//'listForum'			=> $this->Phpbb_Posts_Model->getListThreads(),
+    					//'listPopuler'		=> $this->newslogic->getListNewsCatRel($cat->row()->ID, null, 0, 6, 0, true),
+    					//'listBanner'		=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(3, "a"),
+    					//'listBannerSide'	=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(3, "b")
+    			)
+    	);
+		//print "<pre>";print_r ($data); exit;
+    	
+    	$this->load->view('front/layout', $data);
+    }
+    
+    function read($id){
+    	$this->load->model('X_News_Model');
+    	$this->load->library('newslogic');
+    	
+    	$obj = $this->X_News_Model->getNewsById($id);
+    		
+    	if($obj->num_rows() == 0){
+    		redirect('pages/error404');
+    	}
+    	
+    	//Set PageViews
+    	if(!isset($_COOKIE["views-".$obj->row()->NEWS_ID])){
+    		$data['PAGE_VIEW'] = $obj->row()->PAGE_VIEW+1;
+    	
+    		$this->X_News_Model->updateNews($data, $obj->row()->NEWS_ID);
+    	
+    		setcookie("views-".$obj->row()->NEWS_ID, "true", time() + 900);
+    	}
+    	
+    	//Related Content
+    	$tags = explode(",", $obj->row()->TAGS);
+    	$listRelated = $this->X_News_Model->getListNewsRelated(5, 0, "N", $obj->row()->DATE, $tags);
+    	
+    	$cat = $this->createBreadCrumbs($obj->row()->CAT);
+    	
+    	if($obj->row()->NEWS_PICTURE != "")$og_image = $this->config->item('img_path').'news/'.$obj->row()->NEWS_PICTURE; else $og_image = $this->config->item('ext_img')."icon/200x200.png";
+    	
+    	$data = array(
+    			'pageTitle' 	=> $cat->row()->CAT_NAME.': '.$obj->row()->NEWS_TITLE,
+    			'content'	 	=> 'front/news/read',
+    			'meta_desc'		=> $obj->row()->META_DESC,
+    			'meta_key'		=> $obj->row()->META_KEY,
+    			'og_image'		=> $og_image,
+    			'contentData'	=> array(
+    					'breadData' => $this->breadData,
+    					'news'		=> $obj->row(),
+
+    					'listRegulasi'	=> $this->X_Download_Model->getListData(10, 0, "RE", "A"),
+    					'listProduk'	=> $this->X_News_Model->getNewArtikelLimit("D"),
+    					'cat'		=> $cat->row(),
+    					'listRelated'		=> $listRelated,
+//     					'listLatestNews'	=> $this->newslogic->getListNewsCatRel($cat->row()->ID, null, 0, 6, 0),
+//     					'listForum'			=> $this->Phpbb_Posts_Model->getListThreads(),
+//     					'listPopuler'		=> $this->newslogic->getListNewsCatRel($cat->row()->ID, null, 0, 6, 0, true),
+//     					'listBanner'		=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(3, "a"),
+//     					'listBannerSide'	=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(3, "b")
+    			)
+    	);
+    	
+    	$this->load->view('front/layout', $data);
+    }
+    
+    function fokus($id){
+    	$this->load->model('X_News_Model');
+    	$obj = $this->X_News_Model->getNewsById($id);
+    
+    	if($obj->num_rows() == 0){
+    		redirect('pages/error404');
+    	}
+    	
+    	//Set PageViews
+    	if(!isset($_COOKIE["views-".$obj->row()->NEWS_ID])){
+    		$data['PAGE_VIEW'] = $obj->row()->PAGE_VIEW+1;
+    		 
+    		$this->X_News_Model->updateNews($data, $obj->row()->NEWS_ID);
+    		 
+    		setcookie("views-".$obj->row()->NEWS_ID, "true", time() + 900);
+    	}
+    	
+    	if($obj->row()->NEWS_PICTURE != "")$og_image = $this->config->item('img_path').'news/'.$obj->row()->NEWS_PICTURE; else $og_image = $this->config->item('ext_img')."icon/200x200.png";
+    	 
+    	$data = array(
+    			'pageTitle' 	=> 'Fokus: '.$obj->row()->NEWS_TITLE,
+    			'content'	 	=> 'front/news/fokus',
+    			'meta_desc'		=> $obj->row()->META_DESC,
+    			'meta_key'		=> $obj->row()->META_KEY,
+    			'og_image'		=> $og_image,
+    			'contentData'	=> array(
+    					'listLatestNews'	=> $this->X_News_Model->getListNews(6, 0, "N", "A"),
+    					'listPopuler'		=> $this->X_News_Model->getPopularNews(6, 0, "N", "A"),
+    					'listForum'			=> $this->Phpbb_Posts_Model->getListThreads(),
+    					'news'		=> $obj->row(),
+    					'listBanner'		=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(4, "a"),
+    					'listBannerSide'	=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(4, "b")
+    			)
+    	);
+    	 
+    	$this->load->view('front/layout', $data);
+    }
+    
+    function dialog($id){
+    	$this->load->model('X_News_Model');
+    	$obj = $this->X_News_Model->getNewsById($id);
+    
+    	if($obj->num_rows() == 0){
+    		redirect('pages/error404');
+    	}
+    	 
+    	//Set PageViews
+    	if(!isset($_COOKIE["views-".$obj->row()->NEWS_ID])){
+    		$data['PAGE_VIEW'] = $obj->row()->PAGE_VIEW+1;
+    		 
+    		$this->X_News_Model->updateNews($data, $obj->row()->NEWS_ID);
+    		 
+    		setcookie("views-".$obj->row()->NEWS_ID, "true", time() + 900);
+    	}
+    
+    	if($obj->row()->NEWS_PICTURE != "")$og_image = $this->config->item('img_path').'news/'.$obj->row()->NEWS_PICTURE; else $og_image = $this->config->item('ext_img')."icon/200x200.png";
+    	
+    	$data = array(
+    			'pageTitle' 	=> 'Wawancara: '.$obj->row()->NEWS_TITLE,
+    			'content'	 	=> 'front/news/dialog',
+    			'meta_desc'		=> $obj->row()->META_DESC,
+    			'meta_key'		=> $obj->row()->META_KEY,
+    			'og_image'		=> $og_image,
+    			'contentData'	=> array(
+    					'listLatestNews'	=> $this->X_News_Model->getListNews(6, 0, "N", "A"),
+    					'listPopuler'		=> $this->X_News_Model->getPopularNews(6, 0, "N", "A"),
+    					'listForum'			=> $this->Phpbb_Posts_Model->getListThreads(),
+    					'news'		=> $obj->row(),
+    					'listBanner'		=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(5, "a"),
+    					'listBannerSide'	=> $this->X_Ads_Position_Model->getListPositionBannerJoinFront(5, "b")
+    			)
+    	);
+    
+    	$this->load->view('front/layout', $data);
+    }
+    
+    private function createBreadCrumbs($catId){
+    	$cat = $this->X_News_Category_Model->getCatById($catId);
+    	
+    	if($cat->row()->PARENT != null)$this->createBreadCrumbs($cat->row()->PARENT);
+    	
+    	$this->breadData[$this->breadLoop]['CAT_ALIAS'] = $cat->row()->CAT_ALIAS;
+    	$this->breadData[$this->breadLoop]['CAT_NAME'] 	= $cat->row()->CAT_NAME;
+   		
+   		$this->breadLoop++;
+    	
+   		return $cat;
+    }
+}
+
+/* End of file news.php */
+/* Location: ./application/controllers/news.php */
