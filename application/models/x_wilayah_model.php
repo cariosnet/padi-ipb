@@ -5,25 +5,25 @@
  * Date: 8/28/16
  * Time: 01:36
  */
-class X_Institution_Model extends CI_Model{
-    private $table = "X_LEMBAGA";
+class X_Wilayah_Model extends CI_Model{
+    private $table = "X_WILAYAH";
 
     function __construct(){
         // Call the Model constructor
         parent::__construct();
     }
 
-    function insertInstitution($data){
+    function insertWilayah($data){
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
 
-    function updateInstitution($data, $id){
+    function updateWilayah($data, $id){
         $this->db->where('ID', $id);
         $this->db->update($this->table, $data);
     }
 
-    function getPagesById($id){
+    function getWilayahById($id){
         return $this->db->get_where($this->table,array('ID' => $id));
     }
 
@@ -31,22 +31,7 @@ class X_Institution_Model extends CI_Model{
         return $this->db->get_where($this->table,array('ALIAS' => $alias));
     }
 
-    function delPages($id){
-        $this->db->where('ID', $id);
-        $order = $this->db->get($this->table);
-        $ord = $order->row();
-
-        $this->db->where('ORDER > ',$ord->ORDER);
-        $this->db->where('PARENT', $ord->PARENT);
-        $dat = $this->db->get($this->table);
-        foreach ($dat->result() as $row){
-            $upd['ORDER'] = $row->ORDER - 1;
-            $this->db->where('ID', $row->ID);
-            $this->db->update($this->table, $upd);
-        }
-
-        $this->db->where('PARENT', $id);
-        $this->db->delete($this->table);
+    function delWilayah($id){
 
         $this->db->where('ID', $id);
         $this->db->delete($this->table);
@@ -58,16 +43,9 @@ class X_Institution_Model extends CI_Model{
         }
     }
 
-    function getListInstitution($status = null){
-        $this->db->join("X_STATUS","X_LEMBAGA.ID_STATUS=X_STATUS.ID","inner");
-        if($status != null)$this->db->where('STATUS', $status);
-        $this->db->order_by("INSTITUTION_NAME", "asc");
-        $this->db->order_by("REGION", "asc");
-        return $this->db->get($this->table);
-    }
-    function getListLembaga(){
-        $this->db->order_by("INSTITUTION_NAME", "asc");
-        $this->db->order_by("REGION", "asc");
+    function getListWilayah($search = null){
+        if($search != null)$this->db->where('NAME', $search);
+        $this->db->order_by("NAME", "asc");
         return $this->db->get($this->table);
     }
 

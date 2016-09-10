@@ -5,30 +5,39 @@
  * Date: 8/28/16
  * Time: 01:36
  */
-class X_Institution_Model extends CI_Model{
-    private $table = "X_LEMBAGA";
+class X_Benih_Model extends CI_Model{
+    private $table = "X_BENIH";
 
     function __construct(){
         // Call the Model constructor
         parent::__construct();
     }
 
-    function insertInstitution($data){
+    function insertSebaran($data){
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
 
-    function updateInstitution($data, $id){
-        $this->db->where('ID', $id);
+    function updateSebaran($data, $id){
+        $this->db->where('id', $id);
         $this->db->update($this->table, $data);
     }
 
-    function getPagesById($id){
-        return $this->db->get_where($this->table,array('ID' => $id));
+    function getSebaranById($id){
+        return $this->db->get_where($this->table,array('id' => $id));
     }
 
     function getPagesByAlias($alias){
         return $this->db->get_where($this->table,array('ALIAS' => $alias));
+    }
+
+    function getListJoin(){
+        $this->db->select(array("X_LEMBAGA.INSTITUTION_NAME","X_LEMBAGA.REGION","X_STOK.*","X_BENIH.NAMA_BENIH","X_BENIH.BS","X_BENIH.FS","X_BENIH.SS"));
+        $this->db->join("X_LEMBAGA","X_LEMBAGA.ID=X_STOK.ID_INSTITUTION","inner");
+        $this->db->join("X_BENIH","X_BENIH.ID=X_STOK.ID_BENIH","inner");
+        $this->db->order_by("INSTITUTION_NAME", "asc");
+        $this->db->order_by("REGION", "asc");
+        return $this->db->get($this->table);
     }
 
     function delPages($id){
@@ -58,26 +67,17 @@ class X_Institution_Model extends CI_Model{
         }
     }
 
-    function getListInstitution($status = null){
-        $this->db->join("X_STATUS","X_LEMBAGA.ID_STATUS=X_STATUS.ID","inner");
-        if($status != null)$this->db->where('STATUS', $status);
-        $this->db->order_by("INSTITUTION_NAME", "asc");
-        $this->db->order_by("REGION", "asc");
-        return $this->db->get($this->table);
-    }
-    function getListLembaga(){
-        $this->db->order_by("INSTITUTION_NAME", "asc");
-        $this->db->order_by("REGION", "asc");
+    function getListBenih(){
+        $this->db->order_by("NAMA_BENIH", "asc");
         return $this->db->get($this->table);
     }
 
-    function getListPagesByParent($parent, $status = null){
-        if($status != null)$this->db->where('STATUS', $status);
+    function getListSebaranByWilayah($parent){
+        //if($status != null)$this->db->where('STATUS', $status);
 
-        $this->db->where('PARENT', $parent);
+        $this->db->where('ID_WILAYAH', $parent);
 
-        $this->db->order_by("ORDER", "asc");
-        $this->db->order_by("TITLE", "asc");
+        $this->db->order_by("name", "asc");
         return $this->db->get($this->table);
     }
 

@@ -5,50 +5,36 @@
  * Date: 8/28/16
  * Time: 01:36
  */
-class X_Institution_Model extends CI_Model{
-    private $table = "X_LEMBAGA";
+class X_Sebaran_Model extends CI_Model{
+    private $table = "X_PESEBARAN";
 
     function __construct(){
         // Call the Model constructor
         parent::__construct();
     }
 
-    function insertInstitution($data){
+    function insertSebaran($data){
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
 
-    function updateInstitution($data, $id){
-        $this->db->where('ID', $id);
+    function updateSebaran($data, $id){
+        $this->db->where('id', $id);
         $this->db->update($this->table, $data);
     }
 
-    function getPagesById($id){
-        return $this->db->get_where($this->table,array('ID' => $id));
+    function getSebaranById($id){
+        return $this->db->get_where($this->table,array('id' => $id));
     }
 
     function getPagesByAlias($alias){
         return $this->db->get_where($this->table,array('ALIAS' => $alias));
     }
 
-    function delPages($id){
-        $this->db->where('ID', $id);
-        $order = $this->db->get($this->table);
-        $ord = $order->row();
+    function delSebaran($id){
 
-        $this->db->where('ORDER > ',$ord->ORDER);
-        $this->db->where('PARENT', $ord->PARENT);
-        $dat = $this->db->get($this->table);
-        foreach ($dat->result() as $row){
-            $upd['ORDER'] = $row->ORDER - 1;
-            $this->db->where('ID', $row->ID);
-            $this->db->update($this->table, $upd);
-        }
 
-        $this->db->where('PARENT', $id);
-        $this->db->delete($this->table);
-
-        $this->db->where('ID', $id);
+        $this->db->where('id', $id);
         $this->db->delete($this->table);
 
         if ($this->db->trans_status() === FALSE){
@@ -65,19 +51,13 @@ class X_Institution_Model extends CI_Model{
         $this->db->order_by("REGION", "asc");
         return $this->db->get($this->table);
     }
-    function getListLembaga(){
-        $this->db->order_by("INSTITUTION_NAME", "asc");
-        $this->db->order_by("REGION", "asc");
-        return $this->db->get($this->table);
-    }
 
-    function getListPagesByParent($parent, $status = null){
-        if($status != null)$this->db->where('STATUS', $status);
+    function getListSebaranByWilayah($parent){
+        //if($status != null)$this->db->where('STATUS', $status);
 
-        $this->db->where('PARENT', $parent);
+        $this->db->where('ID_WILAYAH', $parent);
 
-        $this->db->order_by("ORDER", "asc");
-        $this->db->order_by("TITLE", "asc");
+        $this->db->order_by("name", "asc");
         return $this->db->get($this->table);
     }
 

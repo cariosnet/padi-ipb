@@ -65,7 +65,8 @@
                 markers.push(new google.maps.Marker({
                     position: position,
                     map: map,
-                    animation: google.maps.Animation.DROP
+                    animation: google.maps.Animation.DROP,
+                    draggable:true
                 }));
             }, timeout);
         }

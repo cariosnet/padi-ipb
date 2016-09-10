@@ -2,7 +2,7 @@
 			<script type="text/javascript" src="<?php echo base_url()?>extra/ckfinder/ckfinder.js"></script>
 			<script type="text/javascript">
 		    	$(document).ready(function(){
-		    		$("#menu-pages").addClass('active open');
+		    		$("#menu-lembaga").addClass('active open');
 		    		$("#selectType").change(function(){
 						if($(this).val() == 1){
 							$(".linkInput").hide();

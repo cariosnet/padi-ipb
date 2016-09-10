@@ -1,6 +1,6 @@
 			<script type="text/javascript">
 		    	$(document).ready(function(){
-		    		$("#menu-pages").addClass('active open');
+		    		$("#menu-lembaga").addClass('active open');
 		        });
 
 		    	function deleteRow(id){
@@ -42,71 +42,71 @@
 		    	<?php endif;?>
 		    	
 				<div class="row-fluid">
-											<div class="span12">
-												<div class="box">
-													<div class="box-head">
-														<i class="icon-table"></i>
-														<span>Daftar Institution</span>
-													</div>
-													<div class="box-body box-body-nopadding">
-														<div class="highlight-toolbar">
-															<div class="pull-left"><div class="btn-toolbar">
-																<div class="btn-group">
-																	<a href="<?php echo site_url('backoffice/institution/create')?>" class="button button-basic" rel="tooltip" title="Tambah Menu"><i class="icon-plus"></i> Tambah Institution</a>
-																</div>
-															</div></div>
-														</div>
-														<table class="table table-nomargin table-bordered dataTable table-striped table-hover my-custom">
-															<thead>
-																<tr>
-																	<th width="20px">No.</th>
-																	<th>Institusi / Lembaga</th>
-																	<th width="200px">Daerah</th>
-																	<th width="200px">Status</th>
-																	<th width="20px">Aksi</th>
-																</tr>
-															</thead>
-															<tbody>
-															<?php 
-															$no = 1;
-															foreach ($listParent->result() as $row):
-															?>
-																<tr style="text-align: center;">
-																	<td style="text-align: center;"><?php echo $no++;?>.</td>
-																	<td><?php echo $row->INSTITUTION_NAME?></td>
-																	<td style="text-align: center;"><?php echo $row->REGION?></td>
-																	<td style="text-align: center;"><?php echo $row->STATUS?></td>
-																	<td>
-																		<div class="btn-toolbar" style="margin: 0; padding: 0;">
-																			<div class="btn-group">
-																				<a href="<?php echo site_url('backoffice/institution/edit/'.$row->ID)?>" class='button button-basic button-small' rel="tooltip" title="Ubah"><i class="icon-edit"></i></a>
-																				<a href="javascript:void(0);" class='button button-basic button-small' rel="tooltip" title="Hapus" onclick="confirmPopUp('deleteRow(<?php echo $row->ID?>)', 'Peringatan..', 'Anda yakin ingin dihapus ??', 'Ya', 'Tidak');"><i class="icon-trash"></i></a>
-																			</div>
-																		</div>
-																	</td>
-																</tr>
-																
-																<?php /*foreach ($this->X_Pages_Model->getListPagesByParent($row->ID)->result() as $child):*/?><!--
-																<tr style="text-align: center;">
-																	<td style="text-align: center;"><?php /*echo $no++;*/?>.</td>
-																	<td style="padding-left: 40px;"><?php /*echo $child->TITLE*/?></td>
-																	<td style="text-align: center;"><?php /*echo $child->ORDER*/?></td>
-																	<td style="text-align: center;"><img style="width: 20px;" alt="Y" src="<?php /*if($child->STATUS == 'A')$img = "true.png";else $img ="false.png"; echo $this->config->item('ext_img').$img;*/?>" /></td>
-																	<td>
-																		<div class="btn-toolbar" style="margin: 0; padding: 0;">
-																			<div class="btn-group">
-																				<a href="<?php /*echo site_url('backoffice/institution/edit/'.$child->ID)*/?>" class='button button-basic button-small' rel="tooltip" title="Ubah"><i class="icon-edit"></i></a>
-																				<a href="javascript:void(0);" class='button button-basic button-small' rel="tooltip" title="Hapus" onclick="confirmPopUp('deleteRow(<?php /*echo $child->ID*/?>)', 'Peringatan..', 'Anda yakin ingin dihapus ??', 'Ya', 'Tidak');"><i class="icon-trash"></i></a>
-																			</div>
-																		</div>
-																	</td>
-																</tr>
-																--><?php /*endforeach;*/?>
-															<?php endforeach;?>
-															</tbody>
-														</table>
-													</div>
-												</div>
-											</div>
+                    <div class="span12">
+                        <div class="box">
+                            <div class="box-head">
+                                <i class="icon-table"></i>
+                                <span>Daftar Institution</span>
+                            </div>
+                            <div class="box-body box-body-nopadding">
+                                <div class="highlight-toolbar">
+                                    <div class="pull-left"><div class="btn-toolbar">
+                                        <div class="btn-group">
+                                            <a href="<?php echo site_url('backoffice/institution/create')?>" class="button button-basic" rel="tooltip" title="Tambah Menu"><i class="icon-plus"></i> Tambah Institution</a>
+                                        </div>
+                                    </div></div>
+                                </div>
+                                <table class="table table-nomargin table-bordered dataTable table-striped table-hover my-custom">
+                                    <thead>
+                                        <tr>
+                                            <th width="20px">No.</th>
+                                            <th>Institusi / Lembaga</th>
+                                            <th width="200px">Daerah</th>
+                                            <th width="200px">Status</th>
+                                            <th width="20px">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $no = 1;
+                                    foreach ($listParent->result() as $row):
+                                    ?>
+                                        <tr style="text-align: center;">
+                                            <td style="text-align: center;"><?php echo $no++;?>.</td>
+                                            <td><?php echo $row->INSTITUTION_NAME?></td>
+                                            <td style="text-align: center;"><?php echo $row->REGION?></td>
+                                            <td style="text-align: center;"><?php echo $row->STATUS?></td>
+                                            <td>
+                                                <div class="btn-toolbar" style="margin: 0; padding: 0;">
+                                                    <div class="btn-group">
+                                                        <a href="<?php echo site_url('backoffice/institution/edit/'.$row->ID)?>" class='button button-basic button-small' rel="tooltip" title="Ubah"><i class="icon-edit"></i></a>
+                                                        <a href="javascript:void(0);" class='button button-basic button-small' rel="tooltip" title="Hapus" onclick="confirmPopUp('deleteRow(<?php echo $row->ID?>)', 'Peringatan..', 'Anda yakin ingin dihapus ??', 'Ya', 'Tidak');"><i class="icon-trash"></i></a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <?php /*foreach ($this->X_Pages_Model->getListPagesByParent($row->ID)->result() as $child):*/?><!--
+                                        <tr style="text-align: center;">
+                                            <td style="text-align: center;"><?php /*echo $no++;*/?>.</td>
+                                            <td style="padding-left: 40px;"><?php /*echo $child->TITLE*/?></td>
+                                            <td style="text-align: center;"><?php /*echo $child->ORDER*/?></td>
+                                            <td style="text-align: center;"><img style="width: 20px;" alt="Y" src="<?php /*if($child->STATUS == 'A')$img = "true.png";else $img ="false.png"; echo $this->config->item('ext_img').$img;*/?>" /></td>
+                                            <td>
+                                                <div class="btn-toolbar" style="margin: 0; padding: 0;">
+                                                    <div class="btn-group">
+                                                        <a href="<?php /*echo site_url('backoffice/institution/edit/'.$child->ID)*/?>" class='button button-basic button-small' rel="tooltip" title="Ubah"><i class="icon-edit"></i></a>
+                                                        <a href="javascript:void(0);" class='button button-basic button-small' rel="tooltip" title="Hapus" onclick="confirmPopUp('deleteRow(<?php /*echo $child->ID*/?>)', 'Peringatan..', 'Anda yakin ingin dihapus ??', 'Ya', 'Tidak');"><i class="icon-trash"></i></a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        --><?php /*endforeach;*/?>
+                                    <?php endforeach;?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 					</div>
 			</div>

@@ -5,25 +5,25 @@
  * Date: 8/28/16
  * Time: 01:36
  */
-class X_Institution_Model extends CI_Model{
-    private $table = "X_LEMBAGA";
+class X_Penangkar_Model extends CI_Model{
+    private $table = "X_PENANGKAR";
 
     function __construct(){
         // Call the Model constructor
         parent::__construct();
     }
 
-    function insertInstitution($data){
+    function insertPenangkar($data){
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
 
-    function updateInstitution($data, $id){
+    function updatePenangkar($data, $id){
         $this->db->where('ID', $id);
         $this->db->update($this->table, $data);
     }
 
-    function getPagesById($id){
+    function getPenangkarById($id){
         return $this->db->get_where($this->table,array('ID' => $id));
     }
 
@@ -31,23 +31,7 @@ class X_Institution_Model extends CI_Model{
         return $this->db->get_where($this->table,array('ALIAS' => $alias));
     }
 
-    function delPages($id){
-        $this->db->where('ID', $id);
-        $order = $this->db->get($this->table);
-        $ord = $order->row();
-
-        $this->db->where('ORDER > ',$ord->ORDER);
-        $this->db->where('PARENT', $ord->PARENT);
-        $dat = $this->db->get($this->table);
-        foreach ($dat->result() as $row){
-            $upd['ORDER'] = $row->ORDER - 1;
-            $this->db->where('ID', $row->ID);
-            $this->db->update($this->table, $upd);
-        }
-
-        $this->db->where('PARENT', $id);
-        $this->db->delete($this->table);
-
+    function delPenangkar($id){
         $this->db->where('ID', $id);
         $this->db->delete($this->table);
 
@@ -58,26 +42,21 @@ class X_Institution_Model extends CI_Model{
         }
     }
 
-    function getListInstitution($status = null){
-        $this->db->join("X_STATUS","X_LEMBAGA.ID_STATUS=X_STATUS.ID","inner");
+    function getListJoinPenangkar($status = null){
+        $this->db->select(array("X_LEMBAGA.INSTITUTION_NAME","X_PENANGKAR.*"));
+        $this->db->join("X_LEMBAGA","X_LEMBAGA.ID=X_PENANGKAR.ID_INSTITUTION","inner");
         if($status != null)$this->db->where('STATUS', $status);
         $this->db->order_by("INSTITUTION_NAME", "asc");
         $this->db->order_by("REGION", "asc");
         return $this->db->get($this->table);
     }
-    function getListLembaga(){
-        $this->db->order_by("INSTITUTION_NAME", "asc");
-        $this->db->order_by("REGION", "asc");
-        return $this->db->get($this->table);
-    }
 
-    function getListPagesByParent($parent, $status = null){
-        if($status != null)$this->db->where('STATUS', $status);
+    function getListSebaranByWilayah($parent){
+        //if($status != null)$this->db->where('STATUS', $status);
 
-        $this->db->where('PARENT', $parent);
+        $this->db->where('ID_WILAYAH', $parent);
 
-        $this->db->order_by("ORDER", "asc");
-        $this->db->order_by("TITLE", "asc");
+        $this->db->order_by("name", "asc");
         return $this->db->get($this->table);
     }
 

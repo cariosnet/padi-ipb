@@ -5,25 +5,25 @@
  * Date: 8/28/16
  * Time: 01:36
  */
-class X_Institution_Model extends CI_Model{
-    private $table = "X_LEMBAGA";
+class X_Stok_Model extends CI_Model{
+    private $table = "X_STOK";
 
     function __construct(){
         // Call the Model constructor
         parent::__construct();
     }
 
-    function insertInstitution($data){
+    function insertStok($data){
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
 
-    function updateInstitution($data, $id){
+    function updateStok($data, $id){
         $this->db->where('ID', $id);
         $this->db->update($this->table, $data);
     }
 
-    function getPagesById($id){
+    function getStokById($id){
         return $this->db->get_where($this->table,array('ID' => $id));
     }
 
@@ -31,22 +31,16 @@ class X_Institution_Model extends CI_Model{
         return $this->db->get_where($this->table,array('ALIAS' => $alias));
     }
 
-    function delPages($id){
-        $this->db->where('ID', $id);
-        $order = $this->db->get($this->table);
-        $ord = $order->row();
+    function getListJoin(){
+        $this->db->select(array("X_LEMBAGA.INSTITUTION_NAME","X_LEMBAGA.REGION","X_STOK.*","X_BENIH.NAMA_BENIH","X_BENIH.BS","X_BENIH.FS","X_BENIH.SS"));
+        $this->db->join("X_LEMBAGA","X_LEMBAGA.ID=X_STOK.ID_INSTITUTION","inner");
+        $this->db->join("X_BENIH","X_BENIH.ID=X_STOK.ID_BENIH","inner");
+        $this->db->order_by("INSTITUTION_NAME", "asc");
+        $this->db->order_by("REGION", "asc");
+        return $this->db->get($this->table);
+    }
 
-        $this->db->where('ORDER > ',$ord->ORDER);
-        $this->db->where('PARENT', $ord->PARENT);
-        $dat = $this->db->get($this->table);
-        foreach ($dat->result() as $row){
-            $upd['ORDER'] = $row->ORDER - 1;
-            $this->db->where('ID', $row->ID);
-            $this->db->update($this->table, $upd);
-        }
-
-        $this->db->where('PARENT', $id);
-        $this->db->delete($this->table);
+    function delStok($id){
 
         $this->db->where('ID', $id);
         $this->db->delete($this->table);
@@ -65,19 +59,13 @@ class X_Institution_Model extends CI_Model{
         $this->db->order_by("REGION", "asc");
         return $this->db->get($this->table);
     }
-    function getListLembaga(){
-        $this->db->order_by("INSTITUTION_NAME", "asc");
-        $this->db->order_by("REGION", "asc");
-        return $this->db->get($this->table);
-    }
 
-    function getListPagesByParent($parent, $status = null){
-        if($status != null)$this->db->where('STATUS', $status);
+    function getListSebaranByWilayah($parent){
+        //if($status != null)$this->db->where('STATUS', $status);
 
-        $this->db->where('PARENT', $parent);
+        $this->db->where('ID_WILAYAH', $parent);
 
-        $this->db->order_by("ORDER", "asc");
-        $this->db->order_by("TITLE", "asc");
+        $this->db->order_by("name", "asc");
         return $this->db->get($this->table);
     }
 

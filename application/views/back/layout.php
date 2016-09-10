@@ -144,7 +144,7 @@
 	<div id="top"> 
 		<div class="container-fluid">
 			<div class="pull-left">
-				<a href="<?php echo site_url('backoffice')?>" id="brand"><span></span>KORPRI</a>
+				<a href="<?php echo site_url('backoffice')?>" id="brand"><span></span>IPB 3S</a>
 				<div class="collapse-me">
 					<!-- <a href="#" class="button">
 						<i class="icon-comments icon-white"></i>
@@ -256,7 +256,18 @@
 						<li id="submenu-artikelcat-list8"><a href="<?php /*echo site_url('backoffice/news_properties/index/8')*/?>">Kategori</a></li>
 					</ul>
 				</li>-->
-                <li id="menu-pages"><a href="<?php echo site_url('backoffice/institution')?>"><i class="icon-file-alt icon-white"></i><span>Institusi/Lembaga</span></a></li>
+
+                <li id="menu-wilayah">
+				<a href="#"><i class="icon-file icon-white"></i><span>Data Sebaran</span></a>
+					<ul class="subnav">
+						<li id="submenu-artikel-list8"><a href="<?php echo site_url('backoffice/wilayah')?>">Daftar Wilayah</a></li>
+						<li id="submenu-artikel-create8"><a href="<?php echo site_url('backoffice/sebaran')?>">Daftar Sebaran</a></li>
+					</ul>
+				</li>
+
+                <li id="menu-lembaga"><a href="<?php echo site_url('backoffice/institution')?>"><i class="icon-file-alt icon-white"></i><span>Institusi/Lembaga</span></a></li>
+                <li id="menu-stok"><a href="<?php echo site_url('backoffice/stok')?>"><i class="icon-file-alt icon-white"></i><span>Stok</span></a></li>
+                <li id="menu-penangkar"><a href="<?php echo site_url('backoffice/penangkar')?>"><i class="icon-file-alt icon-white"></i><span>Penangkar</span></a></li>
 				<li id="menu-agenda"><a href="<?php echo site_url('backoffice/agenda')?>"><i class="icon-calendar icon-white"></i><span>Agenda</span></a></li>
 				<li id="menu-program"><a href="<?php echo site_url('backoffice/program')?>"><i class="icon-lock icon-white"></i><span>Aplikasi Terkait</span></a></li>
 				<li id="menu-pages"><a href="<?php echo site_url('backoffice/pages')?>"><i class="icon-file-alt icon-white"></i><span>Menu</span></a></li>
