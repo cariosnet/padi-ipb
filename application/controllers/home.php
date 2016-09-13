@@ -54,11 +54,12 @@ class Home extends CI_Controller {
     }
 
     function upbs(){
+        $this->load->model('X_Wilayah_Model');
         $data = array(
             'pageTitle' 	=> $this->bogcamp->getSetting(1).' | '.$this->bogcamp->getSetting(2),
             'content'	 	=> 'front/maps/upbs',
             'contentData'	=> array(
-
+                'sebaran'		=> $this->X_Wilayah_Model->getListWilayah(NULL)
             )
         );
 
@@ -102,11 +103,14 @@ class Home extends CI_Controller {
     }
 
     function budidaya(){
+        $this->load->model('X_News_Model');
+
         $data = array(
+
             'pageTitle' 	=> $this->bogcamp->getSetting(1).' | '.$this->bogcamp->getSetting(2),
             'content'	 	=> 'front/budidaya/index',
             'contentData'	=> array(
-
+                'budidaya' => $this->X_News_Model->getBudidaya()
             )
         );
 

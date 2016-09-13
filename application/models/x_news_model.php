@@ -69,6 +69,14 @@ class X_News_Model extends CI_Model {
         return $this->db->get ($this->table);
 		//return $this->db->get_where($this->table,array('CAT' => $cat));
 	}
+
+    function getBudidaya(){
+        $this->db->where('CAT',26);
+
+        $this->db->order_by("DATE", "desc");
+
+        return $this->db->get($this->table);
+    }
 	
 	function getNewsByCatLimit($cat){
 		$this->db->where('CAT', $cat);
