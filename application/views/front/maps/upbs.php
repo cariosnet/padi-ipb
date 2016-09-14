@@ -19,26 +19,25 @@
         i++;
         <?php }?>
 
-        var contentString = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
-            '<div id="bodyContent">'+
-            '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-            'sandstone rock formation in the southern part of the '+
-            'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
-            'south west of the nearest large town, Alice Springs; 450&#160;km '+
-            '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
-            'features of the Uluru - Kata Tjuta National Park. Uluru is '+
-            'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
-            'Aboriginal people of the area. It has many springs, waterholes, '+
-            'rock caves and ancient paintings. Uluru is listed as a World '+
-            'Heritage Site.</p>'+
-            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-            'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
-            '(last visited June 22, 2009).</p>'+
-            '</div>'+
-            '</div>';
+        var contentString = '<div style="display: inline-block; overflow: auto; max-height: 303px; max-width: 654px;">' +
+            '<div style="overflow: auto;"><table><tbody><tr><td colspan="3">' +
+            '<strong>BPTP Sumatera Utara </strong></td>' +
+            '</tr><tr>' +
+            '<td valign="top">Alamat </td>' +
+            '<td valign="top">:</td><td> Jl. Jend. AH. Nasution No. 18 PO. BOX 7 MDGJ, Medan</td>' +
+            '</tr><tr><td>Penanggungjawab </td><td>:</td><td> Ir. Timbul Marbun</td>' +
+            '</tr><tr><td>Email </td><td>:</td><td> bptpsumut@gmail.com</td>' +
+            '</tr><tr><td>HP </td><td>:</td><td> 081263218228</td></tr>' +
+            '</tbody></table><br><table><tbody><tr><td width="150px">&nbsp;</td>' +
+            '<td align="center" width="50px">BS</td><td align="center" width="50px">FS</td>' +
+            '<td align="center" width="50px">SS</td></tr><tr><td>Padi</td><td align="right">0</td>' +
+            '<td align="right">3.311</td><td align="right">3.700</td></tr><tr><td>Jagung</td>' +
+            '<td align="right">0</td><td align="right">0</td><td align="right">0</td></tr><tr>' +
+            '<td>Kacang Kedelai</td><td align="right">0</td><td align="right">1.100</td>' +
+            '<td align="right">200</td></tr><tr><td>Kacang Tanah</td><td align="right">0</td>' +
+            '<td align="right">0</td><td align="right">0</td></tr><tr><td>Kacang Hijau</td>' +
+            '<td align="right">0</td><td align="right">0</td><td align="right">0</td></tr>' +
+            '</tbody></table><div style="margin-bottom:10px"></div></div></div>';
 
         var marker,i;
         var map;
@@ -48,7 +47,6 @@
             center: {lat: -2, lng: 117.0},
             zoom: 5,
             mapTypeControl: false,
-            draggable: false,
             scaleControl: false,
             scrollwheel: false,
             navigationControl: false,

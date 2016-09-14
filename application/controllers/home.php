@@ -67,11 +67,12 @@ class Home extends CI_Controller {
     }
 
     function news(){
+        $this->load->model('X_News_Model');
         $data = array(
             'pageTitle' 	=> $this->bogcamp->getSetting(1).' | '.$this->bogcamp->getSetting(2),
             'content'	 	=> 'front/news/index',
             'contentData'	=> array(
-
+                'newsList' => $this->X_News_Model->getListNewsJoin(0, '-1', '', '', '','N')
             )
         );
 
@@ -90,10 +91,12 @@ class Home extends CI_Controller {
         $this->load->view('front/layout', $data);
     }
 
-    function news_detail(){
+    function news_detail($id){
+        $this->load->model('X_News_Model');
         $data = array(
             'pageTitle' 	=> $this->bogcamp->getSetting(1).' | '.$this->bogcamp->getSetting(2),
             'content'	 	=> 'front/news/detail',
+            'news'          => $this->X_News_Model->getNewsById($id)->result(),
             'contentData'	=> array(
 
             )

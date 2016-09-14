@@ -45,7 +45,7 @@ $route['404_override'] = 'pages/error404';
 // $route['kanal/(?!index)(.+)'] = "cat/detail/$1";
 
 
-$route['home/news/view/([a-zA-Z0-9_-]+)'] = "home/news_detail";
+$route['home/news/view/([a-zA-Z0-9_-]+)'] = "home/news_detail/$1";
 
 $route['berita'] = "news/news_list";
 $route['berita/([a-zA-Z0-9_-]+)'] = "news/news_category_list/$1";

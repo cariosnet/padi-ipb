@@ -6,8 +6,7 @@
             ?>
             <dt><?php echo $budi->NEWS_TITLE?></dt>
             <dd>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquam incidunt itaque mollitia eligendi, doloribus commodi a culpa ratione aspernatur!</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae rerum molestiae laboriosam nobis odit.</p>
+                <?php echo $budi->NEWS_CONTENT?>
             </dd>
             <?php } ?>
             
